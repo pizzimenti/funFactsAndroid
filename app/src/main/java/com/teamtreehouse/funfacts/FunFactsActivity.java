@@ -22,15 +22,26 @@ public class FunFactsActivity extends AppCompatActivity {
     private TextView mFactTextView;
     private Button mShowFactButton;
     private RelativeLayout mRelativeLayout;
-    private String mFact;
-    private int mColor;
-
+    private String mFact = mFactBook.mFacts[0];
+    private int mColor = Color.parseColor(mColorWheel.mColors[8]);
+    
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putString(KEY_FACT, mFact);
         outState.putInt(KEY_COLOR, mColor);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mFact = savedInstanceState.getString(KEY_FACT);
+        mFactTextView.setText(mFact);
+        mColor = savedInstanceState.getInt(KEY_COLOR);
+        mRelativeLayout.setBackgroundColor(mColor);
+        mShowFactButton.setTextColor(mColor);
     }
 
     @Override
@@ -47,7 +58,7 @@ public class FunFactsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mFact = mFactBook.getFact();
-                int color = mColorWheel.getColor();
+                mColor = mColorWheel.getColor();
 
 
                 //Update the screen with the new fact
